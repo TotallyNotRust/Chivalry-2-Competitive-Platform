@@ -15,10 +15,6 @@ class RankedSection extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              "Play",
-              style: TextStyle(fontSize: 23),
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -39,14 +35,15 @@ class GameModeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width / 4;
+    double height = MediaQuery.of(context).size.height / 5;
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Listener(
         onPointerUp: (event) => BlocProvider.of<MatchmakingBloc>(context)
             .add(StartMatchmaking(gameMode: gameMode)),
         child: SizedBox(
-          width: 250,
-          height: 250,
+          width: width,
           child: Listener(
             child: Stack(
               alignment: AlignmentDirectional.center,
@@ -54,13 +51,14 @@ class GameModeWidget extends StatelessWidget {
                 Image.network(
                     "https://sm.ign.com/ign_nordic/review/c/chivalry-2/chivalry-2-review_uk8b.jpg"),
                 Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Colors.black87),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.black87,
+                    ),
                     child: Text(
                       " ${gameMode.gameModeName} ",
                       style: const TextStyle(color: Colors.white, fontSize: 27),
-                    )),
+                    )), 
               ],
             ),
           ),

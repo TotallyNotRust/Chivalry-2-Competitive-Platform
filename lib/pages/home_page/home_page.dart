@@ -14,7 +14,21 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(child: RankedSection()),
+          SliverAppBar(
+            toolbarHeight: 60,
+            centerTitle: true,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            title: SizedBox(
+              child: Image.asset(
+                "assets/logo.png",
+                height: 60,
+              ),
+            ),
+            actions: [
+              IconButton(onPressed: () {}, icon: const Icon(Icons.account_circle))
+            ],
+          ),
+          const SliverToBoxAdapter(child: RankedSection()),
         ],
       ),
     );

@@ -36,8 +36,9 @@ class MyApp extends StatelessWidget {
           return BlocBuilder(
             bloc: BlocProvider.of<AuthenticationBloc>(context),
             builder: (context, state) {
-              if (state is! AuthenticationState)
+              if (state is! AuthenticationState) {
                 throw Exception("Invalid state type");
+              }
               if (state.isAuthenticated) {
                 return const HomePage();
               }
