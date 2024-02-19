@@ -1,7 +1,8 @@
 import 'package:c2cp/bloc/login/authentication_bloc.dart';
 import 'package:c2cp/bloc/matchmaking_bloc/matchmaking_bloc.dart';
-import 'package:c2cp/pages/home_page/home_page.dart';
+import 'package:c2cp/pages/play_page.dart';
 import 'package:c2cp/pages/login_page.dart';
+import 'package:c2cp/router.dart';
 import 'package:c2cp/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
                 throw Exception("Invalid state type");
               }
               if (state.isAuthenticated) {
-                return const HomePage();
+                return MainRouter();
               }
 
               return LoginPage();

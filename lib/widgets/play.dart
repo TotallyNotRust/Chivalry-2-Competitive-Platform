@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:c2cp/bloc/login/authentication_bloc.dart';
 import 'package:c2cp/bloc/matchmaking_bloc/matchmaking_bloc.dart';
 import 'package:c2cp/services/api_service.dart';
@@ -10,19 +12,16 @@ class RankedSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                GameModeWidget(gameMode: GameMode.oneVsOne),
-                GameModeWidget(gameMode: GameMode.twoVsTwo),
-                GameModeWidget(gameMode: GameMode.fiveVsFive),
-              ],
-            ),
+    return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Flex(
+          direction: (Platform.isAndroid || Platform.isIOS)
+              ? Axis.vertical
+              : Axis.horizontal,
+          children: const [
+            GameModeWidget(gameMode: GameMode.oneVsOne),
+            GameModeWidget(gameMode: GameMode.twoVsTwo),
+            GameModeWidget(gameMode: GameMode.fiveVsFive),
           ],
         ));
   }
@@ -35,15 +34,12 @@ class GameModeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width / 4;
-    double height = MediaQuery.of(context).size.height / 5;
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Listener(
         onPointerUp: (event) => BlocProvider.of<MatchmakingBloc>(context)
             .add(StartMatchmaking(gameMode: gameMode)),
         child: SizedBox(
-          width: width,
           child: Listener(
             child: Stack(
               alignment: AlignmentDirectional.center,
@@ -58,7 +54,7 @@ class GameModeWidget extends StatelessWidget {
                     child: Text(
                       " ${gameMode.gameModeName} ",
                       style: const TextStyle(color: Colors.white, fontSize: 27),
-                    )), 
+                    )),
               ],
             ),
           ),

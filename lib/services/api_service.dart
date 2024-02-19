@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:c2cp/data_classes/account.dart';
 import 'package:dio/dio.dart';
 
-const endpoint = "http://localhost:8081";
+const endpoint = "http://192.168.1.112:8081";
 
 class ApiService {
   String? _token;
@@ -15,20 +15,25 @@ class ApiService {
     print("New token $_token");
   }
 
-  Future<Map> login(String identifier, String password) async {
+  Future<Map?> login(String identifier, String password) async {
     print("Sending request");
-    final response = await dio.post(
-      "$endpoint/login",
-      options: Options(contentType: "application/x-www-form-urlencoded"),
-      data: {
-        "identifier": identifier,
-        "password": password,
-      },
-    );
+    try {
+      final response = await dio.post(
+        "$endpoint/login",
+        options: Options(contentType: "application/x-www-form-urlencoded"),
+        data: {
+          "identifier": identifier,
+          "password": password,
+        },
+      );
 
-    token = response.data["auth"]["token"];
+      token = response.data["auth"]["token"];
 
-    return response.data as Map;
+      return response.data as Map;
+    } on DioException catch (e) {
+      print(e);
+    }
+    return null;
   }
 
   Future<Account> getAccount() async {

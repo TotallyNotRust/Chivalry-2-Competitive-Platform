@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:c2cp/bloc/login/authentication_bloc.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,33 +34,40 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double oneThirdWidth = MediaQuery.of(context).size.width / 3;
-    double oneThirdHeight = MediaQuery.of(context).size.height / 3;
+    double? width;
+    if (Platform.isWindows || Platform.isLinux) {
+      width = MediaQuery.of(context).size.width / 3;
+    }
 
-    TextEditingController identityController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+    TextEditingController identityController =
+        TextEditingController(text: "Person3");
+    TextEditingController passwordController =
+        TextEditingController(text: "TestPass");
 
     return ClayContainer(
       color: Theme.of(context).scaffoldBackgroundColor,
-      width: oneThirdWidth,
+      width: width,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(children: [
-          const Text("Email or Username"),
-          CupertinoTextField(controller: identityController),
-          const Text("Password"),
-          CupertinoTextField(
-            controller: passwordController,
-            obscureText: true,
-          ),
-          CupertinoButton(
+        child: Column(
+          children: [
+            const Text("Email or Username"),
+            CupertinoTextField(controller: identityController),
+            const Text("Password"),
+            CupertinoTextField(
+              controller: passwordController,
+              obscureText: true,
+            ),
+            CupertinoButton(
               child: const Text("Login"),
               onPressed: () {
                 BlocProvider.of<AuthenticationBloc>(context).add(LoginEvent(
                     identifier: identityController.text,
                     password: passwordController.text));
-              })
-        ]),
+              },
+            )
+          ],
+        ),
       ),
     );
   }

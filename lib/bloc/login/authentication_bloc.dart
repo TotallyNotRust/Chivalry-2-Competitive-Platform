@@ -23,6 +23,8 @@ class AuthenticationBloc
   ) async {
     final response =
         await GetIt.I.get<ApiService>().login(event.identifier, event.password);
+    if (response == null) return;
+
     print("Got account $response");
     emit(state.copyWith(account: Account.fromMap(response["account"])));
   }
