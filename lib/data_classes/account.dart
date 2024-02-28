@@ -4,7 +4,8 @@ import 'dart:convert';
 class Account {
   final int id;
   final String username;
-  final String email; 
+  // Nullable, since we will send other users in lobby as account, and having email for them is a gdpr case waiting to happen.
+  final String? email; 
   Account({
     required this.id,
     required this.username,

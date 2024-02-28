@@ -1,9 +1,10 @@
 import 'dart:async';
 
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:bloc/bloc.dart';
 import 'package:c2cp/services/api_service.dart';
 import 'package:get_it/get_it.dart';
-import 'package:meta/meta.dart';
+import 'package:c2cp/data_classes/match.dart';
 import 'dart:convert';
 
 part 'matchmaking_event.dart';
@@ -19,15 +20,15 @@ class MatchmakingBloc extends Bloc<MatchmakingEvent, MatchmakingState> {
     StartMatchmaking event,
     Emitter<MatchmakingState> emit,
   ) async {
-    print("Start matchmaking");
-    String response =
-        await GetIt.I.get<ApiService>().startMatchmaking(event.gameMode.id);
-    print("Done matchmaking");
-    print(response);
-    add(MatchFound());
+    print("joining queue");
+    bool isQueing = await GetIt.I.get<ApiService>().joinQueue(this);
+    print("Emitting with isMatchmaking=$isQueing");
+    emit(state.copyWith(isMatchmaking: isQueing));
   }
 
-  Future matchFound(MatchFound event, Emitter<MatchmakingState> emit) async {}
+  Future matchFound(MatchFound event, Emitter<MatchmakingState> emit) async {
+    print("Match found");
+  }
 }
 
 enum GameMode {

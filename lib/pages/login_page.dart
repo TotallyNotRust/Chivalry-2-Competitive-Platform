@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:c2cp/bloc/login/authentication_bloc.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,8 +36,10 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double? width;
-    if (Platform.isWindows || Platform.isLinux) {
-      width = MediaQuery.of(context).size.width / 3;
+    if (!kIsWeb) {
+      if (Platform.isWindows || Platform.isLinux) {
+        width = MediaQuery.of(context).size.width / 3;
+      }
     }
 
     TextEditingController identityController =

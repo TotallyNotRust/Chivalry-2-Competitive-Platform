@@ -1,7 +1,7 @@
 part of 'matchmaking_bloc.dart';
 
 class MatchmakingState {
-  bool isMatchmaking;
+  final bool isMatchmaking;
   MatchmakingState({
     required this.isMatchmaking,
   });

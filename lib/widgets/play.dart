@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:c2cp/bloc/login/authentication_bloc.dart';
 import 'package:c2cp/bloc/matchmaking_bloc/matchmaking_bloc.dart';
 import 'package:c2cp/services/api_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -15,9 +16,10 @@ class RankedSection extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Flex(
-          direction: (Platform.isAndroid || Platform.isIOS)
+          direction: (!kIsWeb && (Platform.isAndroid || Platform.isIOS))
               ? Axis.vertical
               : Axis.horizontal,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: const [
             GameModeWidget(gameMode: GameMode.oneVsOne),
             GameModeWidget(gameMode: GameMode.twoVsTwo),
@@ -40,12 +42,14 @@ class GameModeWidget extends StatelessWidget {
         onPointerUp: (event) => BlocProvider.of<MatchmakingBloc>(context)
             .add(StartMatchmaking(gameMode: gameMode)),
         child: SizedBox(
+          width: (MediaQuery.of(context).size.width / 3) - 40,
           child: Listener(
             child: Stack(
               alignment: AlignmentDirectional.center,
               children: [
-                Image.network(
-                    "https://sm.ign.com/ign_nordic/review/c/chivalry-2/chivalry-2-review_uk8b.jpg"),
+                Image.asset(
+                  "assets/gamemode-background.jpg",
+                ),
                 Container(
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(10)),

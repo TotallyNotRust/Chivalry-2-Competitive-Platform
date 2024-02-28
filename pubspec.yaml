@@ -34,5 +34,5 @@ flutter:
   assets:
     - assets/logo.png
     - assets/logo_with_people.png
-
+    - assets/gamemode-background.jpg
   

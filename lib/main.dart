@@ -7,11 +7,13 @@ import 'package:c2cp/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-
-GetIt locator = GetIt.instance;
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  locator.registerLazySingleton(() => ApiService());
+  GetIt.I.registerLazySingleton(() => ApiService());
+
+  GetIt.I.registerFactoryAsync<SharedPreferences>(
+      () async => await SharedPreferences.getInstance());
 
   runApp(const MyApp());
 }
@@ -41,7 +43,45 @@ class MyApp extends StatelessWidget {
                 throw Exception("Invalid state type");
               }
               if (state.isAuthenticated) {
-                return MainRouter();
+                return BlocBuilder<MatchmakingBloc, MatchmakingState>(
+                  builder: (context, state) {
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        MainRouter(),
+                        state.isMatchmaking
+                            ? Positioned(
+                                top: 70,
+                                child: ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0)),
+                                  child: Material(
+                                    child: Container(
+                                      width: 200,
+                                      height: 70,
+                                      color: Colors.pink,
+                                      child: const Stack(
+                                        alignment: Alignment.topCenter,
+                                        children: [
+                                          Positioned(
+                                            top: 5,
+                                            child: Text(
+                                              "Queued",
+                                              style: TextStyle(
+                                                  backgroundColor: Colors.pink),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : SizedBox(),
+                      ],
+                    );
+                  },
+                );
               }
 
               return LoginPage();
