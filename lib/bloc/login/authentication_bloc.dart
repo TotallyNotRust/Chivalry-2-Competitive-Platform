@@ -15,6 +15,7 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc() : super(AuthenticationState()) {
     on<LoginEvent>(loginAction, transformer: sequential());
+    on<SignupEvent>(signupAction, transformer: sequential());
   }
 
   Future loginAction(
@@ -23,6 +24,17 @@ class AuthenticationBloc
   ) async {
     final response =
         await GetIt.I.get<ApiService>().login(event.identifier, event.password);
+    if (response == null) return;
+
+    print("Got account $response");
+    emit(state.copyWith(account: Account.fromMap(response["account"])));
+  }
+    Future signupAction(
+    SignupEvent event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    final response =
+        await GetIt.I.get<ApiService>().signup(event.email, event.username, event.password);
     if (response == null) return;
 
     print("Got account $response");

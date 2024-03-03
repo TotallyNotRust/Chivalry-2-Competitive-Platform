@@ -7,7 +7,10 @@ import 'package:c2cp/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+typedef RouterGlobalKey = GlobalKey;
 
 void main() {
   GetIt.I.registerLazySingleton(() => ApiService());
@@ -45,45 +48,10 @@ class MyApp extends StatelessWidget {
               if (state.isAuthenticated) {
                 return BlocBuilder<MatchmakingBloc, MatchmakingState>(
                   builder: (context, state) {
-                    return Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        MainRouter(),
-                        state.isMatchmaking
-                            ? Positioned(
-                                top: 70,
-                                child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0)),
-                                  child: Material(
-                                    child: Container(
-                                      width: 200,
-                                      height: 70,
-                                      color: Colors.pink,
-                                      child: const Stack(
-                                        alignment: Alignment.topCenter,
-                                        children: [
-                                          Positioned(
-                                            top: 5,
-                                            child: Text(
-                                              "Queued",
-                                              style: TextStyle(
-                                                  backgroundColor: Colors.pink),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : SizedBox(),
-                      ],
-                    );
+                    return MainRouter();
                   },
                 );
               }
-
               return LoginPage();
             },
           );
@@ -96,3 +64,4 @@ class MyApp extends StatelessWidget {
 ColorScheme getColorScheme() {
   return ColorScheme.light(background: Color(0xFFF2F2F2));
 }
+

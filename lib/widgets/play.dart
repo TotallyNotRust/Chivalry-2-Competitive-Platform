@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 class RankedSection extends StatelessWidget {
   const RankedSection({super.key});
@@ -36,30 +37,38 @@ class GameModeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Listener(
-        onPointerUp: (event) => BlocProvider.of<MatchmakingBloc>(context)
-            .add(StartMatchmaking(gameMode: gameMode)),
-        child: SizedBox(
-          width: (MediaQuery.of(context).size.width / 3) - 40,
-          child: Listener(
-            child: Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                Image.asset(
-                  "assets/gamemode-background.jpg",
-                ),
-                Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.black87,
-                    ),
-                    child: Text(
-                      " ${gameMode.gameModeName} ",
-                      style: const TextStyle(color: Colors.white, fontSize: 27),
-                    )),
-              ],
+    return BlocListener<MatchmakingBloc, MatchmakingState>(
+      listener: (context, state) {
+        if (state.match != null) {
+          context.go("/match");
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Listener(
+          onPointerUp: (event) => BlocProvider.of<MatchmakingBloc>(context)
+              .add(StartMatchmaking(gameMode: gameMode)),
+          child: SizedBox(
+            width: (MediaQuery.of(context).size.width / 3) - 40,
+            child: Listener(
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  Image.asset(
+                    "assets/gamemode-background.jpg",
+                  ),
+                  Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        color: Colors.black87,
+                      ),
+                      child: Text(
+                        " ${gameMode.gameModeName} ",
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 27),
+                      )),
+                ],
+              ),
             ),
           ),
         ),

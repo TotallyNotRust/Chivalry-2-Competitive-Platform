@@ -31,12 +31,17 @@ class Account {
       'email': email,
     };
   }
-
+  Map<String, dynamic> toMapWOEmail() {
+    return <String, dynamic>{
+      'id': id,
+      'username': username,
+    };
+  }
   factory Account.fromMap(Map<String, dynamic> map) {
     return Account(
       id: map['id'] as int,
       username: map['username'] as String,
-      email: map['email'] as String,
+      email: map['email'] as String?,
     );
   }
 

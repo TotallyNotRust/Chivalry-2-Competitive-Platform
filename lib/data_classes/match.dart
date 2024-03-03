@@ -39,7 +39,7 @@ class Match {
     return Match(
       id: map['id'] as int,
       gamemode: map['gamemode'] as int,
-      players: List<Account>.from((map['players'] as List<int>).map<Account>((x) => Account.fromMap(x as Map<String,dynamic>),),),
+      players: List<Account>.from((map['players'] as List<dynamic>).map<Account>((x) => Account.fromMap(x as Map<String,dynamic>),),),
     );
   }
 

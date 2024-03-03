@@ -12,3 +12,13 @@ class LoginEvent extends AuthenticationEvent {
     required this.password,
   });
 }
+class SignupEvent extends AuthenticationEvent {
+  final String email;
+  final String username;
+  final String password;
+  SignupEvent({
+    required this.email,
+    required this.username,
+    required this.password,
+  });
+}

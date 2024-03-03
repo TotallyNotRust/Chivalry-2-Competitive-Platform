@@ -15,3 +15,14 @@ class MatchFound extends MatchmakingEvent {
 
   MatchFound({required this.match});
 }
+
+class NewMessage extends MatchmakingEvent {
+  final Message message;
+
+  NewMessage({required this.message});
+}
+class SendMessage extends MatchmakingEvent {
+  final Message message;
+
+  SendMessage({required this.message});
+}
